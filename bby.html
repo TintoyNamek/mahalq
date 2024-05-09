@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>sayo</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+    transition: all 3s;
+  }
+
+  img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .container {
+    display: block;
+    text-align: center;
+  }
+
+  .pic {
+    display: block;
+  }
+
+  button {
+    display: block;
+    margin: 10px auto;
+  }
+
+  .love-message {
+    position: absolute;
+    font-size: 1.5rem;
+    color: red;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="content">
+  <img src="patche.jpeg">
+  <h2 id="heading">CLICK MOPO UNG ENTER</h2>
+  <button id="enterBtn">ENTER</button>
+</div>
+
+<audio id="myAudio">
+    <source src="ily.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+document.getElementById('enterBtn').addEventListener('click', function() {
+  // Hide the button
+  document.getElementById('enterBtn').style.display = 'none';
+
+  // Change the heading text to 'I LOVE YOU' gradually
+  const heading = document.getElementById('heading');
+  const textToChangeTo = 'I LOVE YOU';
+  let index = 0;
+
+  const changeText = setInterval(() => {
+    if (index === textToChangeTo.length) {
+      clearInterval(changeText);
+
+      // Play the audio when the text is fully displayed
+      document.getElementById('myAudio').play(); 
+
+      const loveMessages = ['I love you', 'ily patchee', 'ily ily ily', 'iloveyouu patchee', 'ily soo much'];
+
+      const loveMessagesInterval = setInterval(() => {
+        if (Date.now() - startTime > 25000) {
+          clearInterval(loveMessagesInterval);
+        } else {
+          const randomIndex = Math.floor(Math.random() * loveMessages.length);
+          const newLoveMessage = document.createElement('p');
+          newLoveMessage.textContent = loveMessages[randomIndex];
+          newLoveMessage.classList.add('love-message');
+
+          newLoveMessage.style.top = Math.random() * 80 + '%';
+          newLoveMessage.style.left = Math.random() * 80 + '%';
+
+          document.body.appendChild(newLoveMessage);
+
+          setTimeout(() => {
+            newLoveMessage.remove();
+          }, 5000); // Remove message after 5 seconds
+        }
+      }, 1000); // Display a new message every 1 second
+
+      setTimeout(() => {
+        document.getElementById('content').style.opacity = 0;
+        document.body.style.backgroundColor = 'black';
+      }, 24000); // Change opacity and background color after 24 seconds
+    } else {
+      heading.textContent = textToChangeTo.slice(0, index + 1);
+      index++;
+    }
+  }, 300); // Adjust the interval to change the text speed
+
+  const startTime = Date.now();
+});
+</script>
+
+</body>
+</html>
